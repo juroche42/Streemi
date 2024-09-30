@@ -6,8 +6,9 @@ namespace App\Controller;
 
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HomeController
+class HomeController extends AbstractController
 {
     #[Route(path: '/', name: 'home')]
     public function index() : Response
