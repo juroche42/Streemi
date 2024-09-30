@@ -14,7 +14,7 @@ class MovieController extends AbstractController
     public function index(string $name) : Response
     {
         return $this->render('detail.html.twig', 
-            ['name' => $name]
+            ['name_movie' => $name]
         );
     }
 }
