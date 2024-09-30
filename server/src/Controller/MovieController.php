@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MovieController extends AbstractController
 {
-    #[Route(path: '/movie/{name}', name: 'movie')]
+    #[Route(path: '/movie/{name}', name: 'movie_show')]
     public function index(string $name) : Response
     {
         return new Response('<html><body><h1>'.$name.'</h1></body></html>');
