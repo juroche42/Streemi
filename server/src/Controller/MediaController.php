@@ -26,7 +26,7 @@ class MediaController extends AbstractController
         );
     }
 
-    #[Route(path: '/discover', name: 'media')]
+    #[Route(path: '/discover', name: 'discover')]
     public function discover() : Response
     {
         return $this->render('discover.html.twig');

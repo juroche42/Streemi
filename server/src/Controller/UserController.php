@@ -26,13 +26,7 @@ class UserController extends AbstractController
     #[Route(path: '/user/movie', name: 'user_movie')]
     public function getUserMovie() : Response
     {
-        return $this->render('detail_serie.html.twig');
-    }
-
-    #[Route(path: '/user/connect', name: 'user_connect')]
-    public function connect() : Response
-    {
-        return $this->render('confirm.html.twig');
+        return $this->render('admin_films.html.twig');
     }
 
 }
