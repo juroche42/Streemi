@@ -17,4 +17,12 @@ class MediaController extends AbstractController
             ['name_movie' => $name]
         );
     }
+
+    #[Route(path: '/serie/{name}', name: 'serie_show')]
+    public function show(string $name) : Response
+    {
+        return $this->render('detail_serie.html.twig', 
+            ['name_serie' => $name]
+        );
+    }
 }
