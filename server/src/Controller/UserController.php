@@ -34,4 +34,5 @@ class UserController extends AbstractController
     {
         return $this->render('confirm.html.twig');
     }
+
 }

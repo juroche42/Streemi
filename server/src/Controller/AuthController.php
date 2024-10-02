@@ -28,6 +28,12 @@ class AuthController extends AbstractController
         return $this->render('forgot-password.html.twig');
     }
 
+    #[Route(path: '/connect', name: 'connect')]
+    public function connect() : Response
+    {
+        return $this->render('confirm.html.twig');
+    }
+
     #[Route(path: '/reset-password', name: 'reset-password')]
     public function resetPassword() : Response
     {

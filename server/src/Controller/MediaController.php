@@ -25,4 +25,16 @@ class MediaController extends AbstractController
             ['name_serie' => $name]
         );
     }
+
+    #[Route(path: '/discover', name: 'media')]
+    public function discover() : Response
+    {
+        return $this->render('discover.html.twig');
+    }
+
+    #[Route(path: '/media/add', name: 'media')]
+    public function add() : Response
+    {
+        return $this->render('admin_add_films.html.twig');
+    }
 }
