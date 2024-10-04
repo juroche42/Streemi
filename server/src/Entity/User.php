@@ -47,11 +47,18 @@ class User
     #[ORM\OneToMany(targetEntity: Playlist::class, mappedBy: 'creator', orphanRemoval: true)]
     private Collection $playlists;
 
+    /**
+     * @var Collection<int, PlaylistSubscription>
+     */
+    #[ORM\OneToMany(targetEntity: PlaylistSubscription::class, mappedBy: 'subscriber', orphanRemoval: true)]
+    private Collection $playlistSubscriptions;
+
     public function __construct()
     {
         $this->watchHistories = new ArrayCollection();
         $this->subscriptionHistories = new ArrayCollection();
         $this->playlists = new ArrayCollection();
+        $this->playlistSubscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,6 +198,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($playlist->getCreator() === $this) {
                 $playlist->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlaylistSubscription>
+     */
+    public function getPlaylistSubscriptions(): Collection
+    {
+        return $this->playlistSubscriptions;
+    }
+
+    public function addPlaylistSubscription(PlaylistSubscription $playlistSubscription): static
+    {
+        if (!$this->playlistSubscriptions->contains($playlistSubscription)) {
+            $this->playlistSubscriptions->add($playlistSubscription);
+            $playlistSubscription->setSubscriber($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylistSubscription(PlaylistSubscription $playlistSubscription): static
+    {
+        if ($this->playlistSubscriptions->removeElement($playlistSubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($playlistSubscription->getSubscriber() === $this) {
+                $playlistSubscription->setSubscriber(null);
             }
         }
 
