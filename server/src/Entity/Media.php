@@ -47,9 +47,16 @@ class Media
     #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'media')]
     private Collection $watchHistories;
 
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'media', orphanRemoval: true)]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->watchHistories = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +184,36 @@ class Media
             // set the owning side to null (unless already changed)
             if ($watchHistory->getMedia() === $this) {
                 $watchHistory->setMedia(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setMedia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getMedia() === $this) {
+                $comment->setMedia(null);
             }
         }
 
