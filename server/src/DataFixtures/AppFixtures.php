@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Enum\UserAccountStatusEnum;
 use App\Entity\WatchHistory;
 use App\Entity\Subscription;
+use App\Entity\Serie;
 
 class AppFixtures extends Fixture
 {
@@ -17,6 +18,7 @@ class AppFixtures extends Fixture
         $this->createMovie($manager);
         $this->createUser($manager);
         $this->createSubscription($manager);
+        $this->createSerie($manager);
 
         $manager->flush();
     }
@@ -216,5 +218,35 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function createSerie(ObjectManager $manager)
+    {
+        $series = [
+            [
+                'title' => 'Breaking Bad',
+                'coverImage' => 'breaking-bad.jpg',
+                'shortDescription' => 'A high school chemistry teacher turned meth maker.',
+                'longDescription' => 'A high school chemistry teacher turned meth maker partners with a former student to secure his family\'s future.',
+                'releasedAt' => '2008-01-20'
+            ],
+            [
+                'title' => 'Game of Thrones',
+                'coverImage' => 'game-of-thrones.jpg',
+                'shortDescription' => 'Nine noble families fight for control over the lands of Westeros.',
+                'longDescription' => 'Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.',
+                'releasedAt' => '2011-04-17'
+            ]
+        ];
+        foreach ($series as $data) {
+            $serie = new Serie();
+            $serie->setTitle($data['title']);
+            $serie->setCoverImage($data['coverImage']);
+            $serie->setShortDescription($data['shortDescription']);
+            $serie->setLongDescription($data['longDescription']);
+            $serie->setRealeasedAt(new \DateTimeImmutable($data['releasedAt']));
+            
+            $manager->persist($serie);
+        }
     }
 }
