@@ -8,19 +8,15 @@ use App\Entity\Movie;
 use App\Entity\User;
 use App\Enum\UserAccountStatusEnum;
 use App\Entity\WatchHistory;
+use App\Entity\Subscription;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
         $this->createMovie($manager);
-
-        $user = new User();
-        $user->setUsername('jules');
-        $user->setEmail('jroche@example.com');
-        $user->setPassword('password');
-        $user->setAccountStatus(UserAccountStatusEnum::ACTIVE);
-        $manager->persist($user);
+        $this->createUser($manager);
+        $this->createSubscription($manager);
 
         $manager->flush();
     }
@@ -131,7 +127,7 @@ class AppFixtures extends Fixture
                 'username' => 'paul',
                 'email' => 'ppaul@example.com',
                 'password' => 'password3',
-                'accountStatus' => UserAccountStatusEnum::SUSPENDED
+                'accountStatus' => UserAccountStatusEnum::BANNED
             ],
             [
                 'username' => 'lucie',
@@ -143,7 +139,7 @@ class AppFixtures extends Fixture
                 'username' => 'thomas',
                 'email' => 'tthomas@example.com',
                 'password' => 'password5',
-                'accountStatus' => UserAccountStatusEnum::INACTIVE
+                'accountStatus' => UserAccountStatusEnum::PENDING
             ],
             [
                 'username' => 'claire',
@@ -161,13 +157,13 @@ class AppFixtures extends Fixture
                 'username' => 'lea',
                 'email' => 'lea@example.com',
                 'password' => 'password8',
-                'accountStatus' => UserAccountStatusEnum::SUSPENDED
+                'accountStatus' => UserAccountStatusEnum::BANNED
             ],
             [
                 'username' => 'antoine',
                 'email' => 'antoine@example.com',
                 'password' => 'password9',
-                'accountStatus' => UserAccountStatusEnum::INACTIVE
+                'accountStatus' => UserAccountStatusEnum::DELETED
             ],
             [
                 'username' => 'manon',
@@ -185,6 +181,38 @@ class AppFixtures extends Fixture
             $user->setAccountStatus($data['accountStatus']);
             
             $manager->persist($user);
+        }
+
+        $manager->flush();
+    }
+
+    public function createSubscription(ObjectManager $manager) : void 
+    {
+        $subscriptions = [
+            [
+                'name' => 'Basic',
+                'price' => 1000,
+                'durationInMonth' => 1
+            ],
+            [
+                'name' => 'Standard',
+                'price' => 2000,
+                'durationInMonth' => 3
+            ],
+            [
+                'name' => 'Premium',
+                'price' => 3000,
+                'durationInMonth' => 6
+            ]
+        ];
+
+        foreach ($subscriptions as $data) {
+            $subscription = new Subscription();
+            $subscription->setName($data['name']);
+            $subscription->setPrice($data['price']);
+            $subscription->setDurationInMonth($data['durationInMonth']);
+            
+            $manager->persist($subscription);
         }
 
         $manager->flush();
