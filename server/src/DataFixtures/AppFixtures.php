@@ -336,7 +336,7 @@ class AppFixtures extends Fixture
         }
     }
 
-    public function createCategory(ObjectManager $manager)
+    public function createCategory(ObjectManager $manager) : void
     {
         $categories = [
             [
@@ -401,7 +401,7 @@ class AppFixtures extends Fixture
         }
     }
 
-    public function createLanguage(ObjectManager $manager)
+    public function createLanguage(ObjectManager $manager) : void
     {
         $languages = [
             [
