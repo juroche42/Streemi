@@ -32,7 +32,7 @@ class Media
     private ?string $longDescription = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $realeasedAt = null;
+    private ?\DateTimeImmutable $realeasedAt = null;
 
     #[ORM\Column(length: 255)]
     private ?string $coverImage = null;
@@ -123,12 +123,12 @@ class Media
         return $this;
     }
 
-    public function getRealeasedAt(): ?\DateTimeInterface
+    public function getRealeasedAt(): ?\DateTimeImmutable
     {
         return $this->realeasedAt;
     }
 
-    public function setRealeasedAt(\DateTimeInterface $realeasedAt): static
+    public function setRealeasedAt(\DateTimeImmutable $realeasedAt): static
     {
         $this->realeasedAt = $realeasedAt;
 
