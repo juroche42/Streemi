@@ -12,6 +12,7 @@ use App\Entity\Subscription;
 use App\Entity\Serie;
 use App\Entity\Category;
 use App\Entity\Language;
+use App\Entity\Season;
 
 class AppFixtures extends Fixture
 {
@@ -249,7 +250,7 @@ class AppFixtures extends Fixture
             $serie->setShortDescription($data['shortDescription']);
             $serie->setLongDescription($data['longDescription']);
             $serie->setRealeasedAt(new \DateTimeImmutable($data['releasedAt']));
-            
+            $this->createSeason($manager, $serie);
             $manager->persist($serie);
         }
     }
@@ -374,5 +375,27 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function createSeason(ObjectManager $manager, Serie $serie): void
+    {
+        $seasons = [
+            [
+                'number' => 1,
+            ],
+            [
+                'number' => 2,
+            ],
+            [
+                'number' => 3,
+            ]
+        ];
+        foreach ($seasons as $data) {
+            $season = new Season();
+            $season->setSeasonNumber($data['number']);
+            $season->setSerie($serie);
+            
+            $manager->persist($season);
+        }
     }
 }
