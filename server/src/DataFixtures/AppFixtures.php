@@ -11,6 +11,7 @@ use App\Entity\WatchHistory;
 use App\Entity\Subscription;
 use App\Entity\Serie;
 use App\Entity\Category;
+use App\Entity\Language;
 
 class AppFixtures extends Fixture
 {
@@ -21,6 +22,7 @@ class AppFixtures extends Fixture
         $this->createSubscription($manager);
         $this->createSerie($manager);
         $this->createCategory($manager);
+        $this->createLanguage($manager);
 
         $manager->flush();
     }
@@ -314,6 +316,61 @@ class AppFixtures extends Fixture
             $category->setLabel($data['label']);
             
             $manager->persist($category);
+        }
+
+        $manager->flush();
+    }
+
+    public function createLanguage(ObjectManager $manager)
+    {
+        $languages = [
+            [
+                'name' => 'English',
+                'code' => 'en'
+            ],
+            [
+                'name' => 'French',
+                'code' => 'fr'
+            ],
+            [
+                'name' => 'Spanish',
+                'code' => 'es'
+            ],
+            [
+                'name' => 'German',
+                'code' => 'de'
+            ],
+            [
+                'name' => 'Italian',
+                'code' => 'it'
+            ],
+            [
+                'name' => 'Portuguese',
+                'code' => 'pt'
+            ],
+            [
+                'name' => 'Russian',
+                'code' => 'ru'
+            ],
+            [
+                'name' => 'Japanese',
+                'code' => 'ja'
+            ],
+            [
+                'name' => 'Chinese',
+                'code' => 'zh'
+            ],
+            [
+                'name' => 'Korean',
+                'code' => 'ko'
+            ]
+        ];
+        foreach ($languages as $data) {
+            $language = new Language();
+            $language->setName($data['name']);
+            $language->setCode($data['code']);
+            
+            $manager->persist($language);
         }
 
         $manager->flush();
