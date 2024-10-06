@@ -10,6 +10,7 @@ use App\Enum\UserAccountStatusEnum;
 use App\Entity\WatchHistory;
 use App\Entity\Subscription;
 use App\Entity\Serie;
+use App\Entity\Category;
 
 class AppFixtures extends Fixture
 {
@@ -19,6 +20,7 @@ class AppFixtures extends Fixture
         $this->createUser($manager);
         $this->createSubscription($manager);
         $this->createSerie($manager);
+        $this->createCategory($manager);
 
         $manager->flush();
     }
@@ -248,5 +250,72 @@ class AppFixtures extends Fixture
             
             $manager->persist($serie);
         }
+    }
+
+    public function createCategory(ObjectManager $manager)
+    {
+        $categories = [
+            [
+                'name' => 'Action',
+                'label' => 'Action'
+            ],
+            [
+                'name' => 'Adventure',
+                'label' => 'Adventure'
+            ],
+            [
+                'name' => 'Comedy',
+                'label' => 'Comedy'
+            ],
+            [
+                'name' => 'Crime',
+                'label' => 'Crime'
+            ],
+            [
+                'name' => 'Drama',
+                'label' => 'Drama'
+            ],
+            [
+                'name' => 'Fantasy',
+                'label' => 'Fantasy'
+            ],
+            [
+                'name' => 'Historical',
+                'label' => 'Historical'
+            ],
+            [
+                'name' => 'Horror',
+                'label' => 'Horror'
+            ],
+            [
+                'name' => 'Mystery',
+                'label' => 'Mystery'
+            ],
+            [
+                'name' => 'Romance',
+                'label' => 'Romance'
+            ],
+            [
+                'name' => 'Science Fiction',
+                'label' => 'Science Fiction'
+            ],
+            [
+                'name' => 'Thriller',
+                'label' => 'Thriller'
+            ],
+            [
+                'name' => 'Western',
+                'label' => 'Western'
+            ]
+        ];
+        foreach ($categories as $data) {
+            $category = new Category();
+            $category->setName($data['name']);
+            $category->setLabel($data['label']);
+            
+            $manager->persist($category);
+        }
+
+        $manager->flush();
     }
 }
