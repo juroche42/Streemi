@@ -14,6 +14,7 @@ use App\Entity\Category;
 use App\Entity\Language;
 use App\Entity\Season;
 use App\Entity\Episode;
+use App\Entity\Playlist;
 
 class AppFixtures extends Fixture
 {
@@ -187,11 +188,36 @@ class AppFixtures extends Fixture
             $user->setEmail($data['email']);
             $user->setPassword($data['password']);
             $user->setAccountStatus($data['accountStatus']);
+            $this->createPlaylist($manager, $user);
             
             $manager->persist($user);
         }
+    }
 
-        $manager->flush();
+    public function createPlaylist(ObjectManager $manager, User $user) : void 
+    {
+        $playlists = [
+            [
+                'name' => 'Watch Later',
+                'description' => 'Movies and series to watch later',
+                'createdAt' => new \DateTimeImmutable('2021-01-01')
+            ],
+            [
+                'name' => 'Favorites',
+                'description' => 'Movies and series to watch again',
+                'createdAt' => new \DateTimeImmutable('2021-01-01')
+            ]
+        ];
+
+        foreach ($playlists as $data) {
+            $playlist = new Playlist();
+            $playlist->setName($data['name']);
+            $playlist->setCreatedAt($data['createdAt']);
+            $playlist->setUpdatedAt($data['createdAt']);
+            $playlist->setCreator($user);
+            
+            $manager->persist($playlist);
+        }
     }
 
     public function createSubscription(ObjectManager $manager) : void 
@@ -222,8 +248,6 @@ class AppFixtures extends Fixture
             
             $manager->persist($subscription);
         }
-
-        $manager->flush();
     }
 
     public function createSerie(ObjectManager $manager)
@@ -253,6 +277,62 @@ class AppFixtures extends Fixture
             $serie->setRealeasedAt(new \DateTimeImmutable($data['releasedAt']));
             $this->createSeason($manager, $serie);
             $manager->persist($serie);
+        }
+    }
+
+    public function createSeason(ObjectManager $manager, Serie $serie): void
+    {
+        $seasons = [
+            [
+                'number' => 1,
+            ],
+            [
+                'number' => 2,
+            ],
+            [
+                'number' => 3,
+            ]
+        ];
+        foreach ($seasons as $data) {
+            $season = new Season();
+            $season->setSeasonNumber($data['number']);
+            $season->setSerie($serie);
+            $this->createEpisode($manager, $season);
+            
+            $manager->persist($season);
+        }
+    }
+
+    public function createEpisode(ObjectManager $manager, Season $season): void
+    {
+        $episodes = [
+            [
+                'title' => 'Pilot',
+                'duration' => 49,
+                'releasedAt' => '2008-01-20'
+            ],
+            [
+                'title' => 'Cat\'s in the Bag...',
+                'duration' => 48,
+                'releasedAt' => '2008-01-27'
+            ],
+            [
+                'title' => '...And the Bag\'s in the River',
+                'duration' => 47,
+                'releasedAt' => '2008-02-10'
+            ]
+        ];
+        foreach ($episodes as $data) {
+            $episode = new Episode();
+            $episode->setTitle($data['title']);
+            $hours = intdiv($data['duration'], 60);
+            $minutes = $data['duration'] % 60;    
+            $duration = \DateTimeImmutable::createFromFormat('H:i', sprintf('%02d:%02d', $hours, $minutes));
+            $episode->setDuration($duration);            
+            $episode->setReleasedAt(new \DateTimeImmutable($data['releasedAt']));
+            $episode->setSeason($season);
+            
+            $manager->persist($episode);
         }
     }
 
@@ -319,8 +399,6 @@ class AppFixtures extends Fixture
             
             $manager->persist($category);
         }
-
-        $manager->flush();
     }
 
     public function createLanguage(ObjectManager $manager)
@@ -376,61 +454,5 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
-    }
-
-    public function createSeason(ObjectManager $manager, Serie $serie): void
-    {
-        $seasons = [
-            [
-                'number' => 1,
-            ],
-            [
-                'number' => 2,
-            ],
-            [
-                'number' => 3,
-            ]
-        ];
-        foreach ($seasons as $data) {
-            $season = new Season();
-            $season->setSeasonNumber($data['number']);
-            $season->setSerie($serie);
-            $this->createEpisode($manager, $season);
-            
-            $manager->persist($season);
-        }
-    }
-
-    public function createEpisode(ObjectManager $manager, Season $season): void
-    {
-        $episodes = [
-            [
-                'title' => 'Pilot',
-                'duration' => 49,
-                'releasedAt' => '2008-01-20'
-            ],
-            [
-                'title' => 'Cat\'s in the Bag...',
-                'duration' => 48,
-                'releasedAt' => '2008-01-27'
-            ],
-            [
-                'title' => '...And the Bag\'s in the River',
-                'duration' => 47,
-                'releasedAt' => '2008-02-10'
-            ]
-        ];
-        foreach ($episodes as $data) {
-            $episode = new Episode();
-            $episode->setTitle($data['title']);
-            $hours = intdiv($data['duration'], 60);
-            $minutes = $data['duration'] % 60;    
-            $duration = \DateTimeImmutable::createFromFormat('H:i', sprintf('%02d:%02d', $hours, $minutes));
-            $episode->setDuration($duration);            
-            $episode->setReleasedAt(new \DateTimeImmutable($data['releasedAt']));
-            $episode->setSeason($season);
-            
-            $manager->persist($episode);
-        }
     }
 }
