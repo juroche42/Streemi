@@ -13,6 +13,7 @@ use App\Entity\Serie;
 use App\Entity\Category;
 use App\Entity\Language;
 use App\Entity\Season;
+use App\Entity\Episode;
 
 class AppFixtures extends Fixture
 {
@@ -370,7 +371,7 @@ class AppFixtures extends Fixture
             $language = new Language();
             $language->setName($data['name']);
             $language->setCode($data['code']);
-            
+
             $manager->persist($language);
         }
 
@@ -394,8 +395,42 @@ class AppFixtures extends Fixture
             $season = new Season();
             $season->setSeasonNumber($data['number']);
             $season->setSerie($serie);
+            $this->createEpisode($manager, $season);
             
             $manager->persist($season);
+        }
+    }
+
+    public function createEpisode(ObjectManager $manager, Season $season): void
+    {
+        $episodes = [
+            [
+                'title' => 'Pilot',
+                'duration' => 49,
+                'releasedAt' => '2008-01-20'
+            ],
+            [
+                'title' => 'Cat\'s in the Bag...',
+                'duration' => 48,
+                'releasedAt' => '2008-01-27'
+            ],
+            [
+                'title' => '...And the Bag\'s in the River',
+                'duration' => 47,
+                'releasedAt' => '2008-02-10'
+            ]
+        ];
+        foreach ($episodes as $data) {
+            $episode = new Episode();
+            $episode->setTitle($data['title']);
+            $hours = intdiv($data['duration'], 60);
+            $minutes = $data['duration'] % 60;    
+            $duration = \DateTimeImmutable::createFromFormat('H:i', sprintf('%02d:%02d', $hours, $minutes));
+            $episode->setDuration($duration);            
+            $episode->setReleasedAt(new \DateTimeImmutable($data['releasedAt']));
+            $episode->setSeason($season);
+            
+            $manager->persist($episode);
         }
     }
 }

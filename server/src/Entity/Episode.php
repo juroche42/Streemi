@@ -17,8 +17,8 @@ class Episode
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $duration = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $duration = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $releasedAt = null;
@@ -44,12 +44,12 @@ class Episode
         return $this;
     }
 
-    public function getDuration(): ?\DateTimeInterface
+    public function getDuration(): ?\DateTimeImmutable
     {
         return $this->duration;
     }
 
-    public function setDuration(\DateTimeInterface $duration): static
+    public function setDuration(\DateTimeImmutable $duration): static
     {
         $this->duration = $duration;
 
