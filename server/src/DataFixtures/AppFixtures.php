@@ -17,6 +17,7 @@ use App\Entity\Episode;
 use App\Entity\Playlist;
 use App\Entity\SubscriptionHistory;
 use App\Entity\PlaylistSubscription;
+use App\Entity\PlaylistMedia;
 
 class AppFixtures extends Fixture
 {
@@ -228,8 +229,30 @@ class AppFixtures extends Fixture
 
             $this->datas['playlist'] = $playlist;
             $this->createPlaylistSubscription($manager);
+            $this->createPlaylistMedia($manager);
             
             $manager->persist($playlist);
+        }
+    }
+
+    public function createPlaylistMedia(ObjectManager $manager) : void 
+    {
+        $playlistMedias = [
+            [
+                'addedAt' => new \DateTimeImmutable('2021-01-01')
+            ],
+            [
+                'addedAt' => new \DateTimeImmutable('2021-01-01')
+            ]
+        ];
+
+        foreach ($playlistMedias as $data) {
+            $playlistMedia = new PlaylistMedia();
+            $playlistMedia->setAddedAt($data['addedAt']);
+            $playlistMedia->setPlaylist($this->datas['playlist']);
+            $playlistMedia->setMedia($this->datas['movie']);
+
+            $manager->persist($playlistMedia);
         }
     }
 
