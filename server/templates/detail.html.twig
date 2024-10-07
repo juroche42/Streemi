@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style/style.css" rel="stylesheet">
-    <title>Streemi - Détail</title>
+    <title>{{movie.title}}</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -67,7 +67,7 @@
                         </div>
                         <div class="text-right space-x-1">
                             <span class="bg-white/30 py-1 px-3 text-xxs rounded">1h42m restants</span>
-                            <span class="bg-white/30 py-1 px-3 text-xxs rounded">12 visionnages</span>
+                            <span class="bg-white/30 py-1 px-3 text-xxs rounded">{{ movie.watchHistories.count }} visionnages</span>
                             <span class="bg-white/30 py-1 px-3 text-xxs rounded">{{ movie.comments.count }} commentaires</span>
                         </div>
                     </div>
