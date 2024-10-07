@@ -27,14 +27,138 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $this->createCategory($manager);
+        $this->createLanguage($manager);
         $this->createMovie($manager);
         $this->createUser($manager);
         $this->createComment($manager);
         $this->createSubscription($manager);
         $this->createSubscriptionHistory($manager);
         $this->createSerie($manager);
-        $this->createCategory($manager);
-        $this->createLanguage($manager);
+
+        $manager->flush();
+    }
+
+    public function createCategory(ObjectManager $manager) : void
+    {
+        $categories = [
+            [
+                'name' => 'Action',
+                'label' => 'Action'
+            ],
+            [
+                'name' => 'Adventure',
+                'label' => 'Adventure'
+            ],
+            [
+                'name' => 'Comedy',
+                'label' => 'Comedy'
+            ],
+            [
+                'name' => 'Crime',
+                'label' => 'Crime'
+            ],
+            [
+                'name' => 'Drama',
+                'label' => 'Drama'
+            ],
+            [
+                'name' => 'Fantasy',
+                'label' => 'Fantasy'
+            ],
+            [
+                'name' => 'Historical',
+                'label' => 'Historical'
+            ],
+            [
+                'name' => 'Horror',
+                'label' => 'Horror'
+            ],
+            [
+                'name' => 'Mystery',
+                'label' => 'Mystery'
+            ],
+            [
+                'name' => 'Romance',
+                'label' => 'Romance'
+            ],
+            [
+                'name' => 'Science Fiction',
+                'label' => 'Science Fiction'
+            ],
+            [
+                'name' => 'Thriller',
+                'label' => 'Thriller'
+            ],
+            [
+                'name' => 'Western',
+                'label' => 'Western'
+            ]
+        ];
+        foreach ($categories as $data) {
+            $category = new Category();
+            $category->setName($data['name']);
+            $category->setLabel($data['label']);
+
+            $this->datas['category'] = $category;
+            
+            $manager->persist($category);
+        }
+    }
+
+    public function createLanguage(ObjectManager $manager) : void
+    {
+        $languages = [
+            [
+                'name' => 'English',
+                'code' => 'en'
+            ],
+            [
+                'name' => 'French',
+                'code' => 'fr'
+            ],
+            [
+                'name' => 'Spanish',
+                'code' => 'es'
+            ],
+            [
+                'name' => 'German',
+                'code' => 'de'
+            ],
+            [
+                'name' => 'Italian',
+                'code' => 'it'
+            ],
+            [
+                'name' => 'Portuguese',
+                'code' => 'pt'
+            ],
+            [
+                'name' => 'Russian',
+                'code' => 'ru'
+            ],
+            [
+                'name' => 'Japanese',
+                'code' => 'ja'
+            ],
+            [
+                'name' => 'Chinese',
+                'code' => 'zh'
+            ],
+            [
+                'name' => 'Korean',
+                'code' => 'ko'
+            ]
+        ];
+        foreach ($languages as $data) {
+            $language = new Language();
+            $language->setName($data['name']);
+            $language->setCode($data['code']);
+
+            $this->datas['language'] = $language;
+
+            $manager->persist($language);
+        }
 
         $manager->flush();
     }
@@ -455,127 +579,5 @@ class AppFixtures extends Fixture
         }
     }
 
-    public function createCategory(ObjectManager $manager) : void
-    {
-        $categories = [
-            [
-                'name' => 'Action',
-                'label' => 'Action'
-            ],
-            [
-                'name' => 'Adventure',
-                'label' => 'Adventure'
-            ],
-            [
-                'name' => 'Comedy',
-                'label' => 'Comedy'
-            ],
-            [
-                'name' => 'Crime',
-                'label' => 'Crime'
-            ],
-            [
-                'name' => 'Drama',
-                'label' => 'Drama'
-            ],
-            [
-                'name' => 'Fantasy',
-                'label' => 'Fantasy'
-            ],
-            [
-                'name' => 'Historical',
-                'label' => 'Historical'
-            ],
-            [
-                'name' => 'Horror',
-                'label' => 'Horror'
-            ],
-            [
-                'name' => 'Mystery',
-                'label' => 'Mystery'
-            ],
-            [
-                'name' => 'Romance',
-                'label' => 'Romance'
-            ],
-            [
-                'name' => 'Science Fiction',
-                'label' => 'Science Fiction'
-            ],
-            [
-                'name' => 'Thriller',
-                'label' => 'Thriller'
-            ],
-            [
-                'name' => 'Western',
-                'label' => 'Western'
-            ]
-        ];
-        foreach ($categories as $data) {
-            $category = new Category();
-            $category->setName($data['name']);
-            $category->setLabel($data['label']);
-
-            $this->datas['category'] = $category;
-            
-            $manager->persist($category);
-        }
-    }
-
-    public function createLanguage(ObjectManager $manager) : void
-    {
-        $languages = [
-            [
-                'name' => 'English',
-                'code' => 'en'
-            ],
-            [
-                'name' => 'French',
-                'code' => 'fr'
-            ],
-            [
-                'name' => 'Spanish',
-                'code' => 'es'
-            ],
-            [
-                'name' => 'German',
-                'code' => 'de'
-            ],
-            [
-                'name' => 'Italian',
-                'code' => 'it'
-            ],
-            [
-                'name' => 'Portuguese',
-                'code' => 'pt'
-            ],
-            [
-                'name' => 'Russian',
-                'code' => 'ru'
-            ],
-            [
-                'name' => 'Japanese',
-                'code' => 'ja'
-            ],
-            [
-                'name' => 'Chinese',
-                'code' => 'zh'
-            ],
-            [
-                'name' => 'Korean',
-                'code' => 'ko'
-            ]
-        ];
-        foreach ($languages as $data) {
-            $language = new Language();
-            $language->setName($data['name']);
-            $language->setCode($data['code']);
-
-            $this->datas['language'] = $language;
-
-            $manager->persist($language);
-        }
-
-        $manager->flush();
-    }
+    
 }
