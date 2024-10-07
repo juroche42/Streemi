@@ -15,7 +15,8 @@ class MediaController extends AbstractController
     public function index(Movie $movie) : Response
     {
         dump($movie);
-        return $this->render('detail.html.twig'
+        return $this->render('detail.html.twig',
+            ['movie' => $movie]
         );
     }
 

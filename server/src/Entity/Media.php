@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\CommentStatusEnum;
 use App\Repository\MediaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -207,6 +208,13 @@ class Media
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+
+    public function getApprovedComments(): Collection
+    {
+        return $this->comments->filter(static function (Comment $comment) {
+            return $comment->getStatus() === CommentStatusEnum::APPROVED;
+        });
     }
 
     public function addComment(Comment $comment): static
