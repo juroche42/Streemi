@@ -6,7 +6,7 @@ namespace App\Enum;
 
 enum CommentStatusEnum : string
 {
-    public const PENDING = 'pending';
-    public const APPROVED = 'approved';
-    public const REJECTED = 'rejected';
+    case PENDING = 'pending';
+    case APPROVED = 'approved';
+    case REJECTED = 'rejected';
 }

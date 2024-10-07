@@ -18,6 +18,8 @@ use App\Entity\Playlist;
 use App\Entity\SubscriptionHistory;
 use App\Entity\PlaylistSubscription;
 use App\Entity\PlaylistMedia;
+use App\Entity\Comment;
+use App\Enum\CommentStatusEnum;
 
 class AppFixtures extends Fixture
 {
@@ -27,6 +29,7 @@ class AppFixtures extends Fixture
     {
         $this->createMovie($manager);
         $this->createUser($manager);
+        $this->createComment($manager);
         $this->createSubscription($manager);
         $this->createSubscriptionHistory($manager);
         $this->createSerie($manager);
@@ -202,6 +205,32 @@ class AppFixtures extends Fixture
             $this->createPlaylist($manager, $user);
             
             $manager->persist($user);
+        }
+    }
+
+    public function createComment(ObjectManager $manager) : void 
+    {
+        $comments = [
+            [
+                'content' => 'Great movie!',
+                'createdAt' => new \DateTimeImmutable('2021-01-01'),
+                'status' => CommentStatusEnum::PENDING
+            ],
+            [
+                'content' => 'I love this movie!',
+                'createdAt' => new \DateTimeImmutable('2021-01-01'),
+                'status' => CommentStatusEnum::APPROVED
+            ]
+        ];
+
+        foreach ($comments as $data) {
+            $comment = new Comment();
+            $comment->setContent($data['content']);
+            $comment->setMedia($this->datas['movie']);
+            $comment->setCommentator($this->datas['user']);
+            $comment->setStatus($data['status']);
+
+            $manager->persist($comment);
         }
     }
 
