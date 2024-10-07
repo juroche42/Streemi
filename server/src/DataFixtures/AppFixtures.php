@@ -15,10 +15,10 @@ use App\Entity\Language;
 use App\Entity\Season;
 use App\Entity\Episode;
 use App\Entity\Playlist;
+use App\Entity\SubscriptionHistory;
 
 class AppFixtures extends Fixture
 {
-
     public array $datas = [];
 
     public function load(ObjectManager $manager): void
@@ -26,6 +26,7 @@ class AppFixtures extends Fixture
         $this->createMovie($manager);
         $this->createUser($manager);
         $this->createSubscription($manager);
+        $this->createSubscriptionHistory($manager);
         $this->createSerie($manager);
         $this->createCategory($manager);
         $this->createLanguage($manager);
@@ -258,6 +259,34 @@ class AppFixtures extends Fixture
             $this->datas['subscription'] = $subscription;
             
             $manager->persist($subscription);
+        }
+    }
+
+    public function createSubscriptionHistory(ObjectManager $manager) : void 
+    {
+        $subscriptionHistories = [
+            [
+                'startDate' => new \DateTimeImmutable('2021-01-01'),
+                'endDate' => new \DateTimeImmutable('2021-02-01')
+            ],
+            [
+                'startDate' => new \DateTimeImmutable('2021-01-01'),
+                'endDate' => new \DateTimeImmutable('2021-04-01')
+            ],
+            [
+                'startDate' => new \DateTimeImmutable('2021-01-01'),
+                'endDate' => new \DateTimeImmutable('2021-07-01')
+            ]
+        ];
+
+        foreach ($subscriptionHistories as $data) {
+            $subscriptionHistory = new SubscriptionHistory();
+            $subscriptionHistory->setSubscriber($this->datas['user']);
+            $subscriptionHistory->setSubscription($this->datas['subscription']);
+            $subscriptionHistory->setStartAt($data['startDate']);
+            $subscriptionHistory->setEndAt($data['endDate']);
+
+            $manager->persist($subscriptionHistory);
         }
     }
 
