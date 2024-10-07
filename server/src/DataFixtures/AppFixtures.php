@@ -16,6 +16,7 @@ use App\Entity\Season;
 use App\Entity\Episode;
 use App\Entity\Playlist;
 use App\Entity\SubscriptionHistory;
+use App\Entity\PlaylistSubscription;
 
 class AppFixtures extends Fixture
 {
@@ -194,9 +195,10 @@ class AppFixtures extends Fixture
             $user->setEmail($data['email']);
             $user->setPassword($data['password']);
             $user->setAccountStatus($data['accountStatus']);
-            $this->createPlaylist($manager, $user);
 
             $this->datas['user'] = $user;
+
+            $this->createPlaylist($manager, $user);
             
             $manager->persist($user);
         }
@@ -225,8 +227,30 @@ class AppFixtures extends Fixture
             $playlist->setCreator($user);
 
             $this->datas['playlist'] = $playlist;
+            $this->createPlaylistSubscription($manager);
             
             $manager->persist($playlist);
+        }
+    }
+
+    public function createPlaylistSubscription(ObjectManager $manager) : void 
+    {
+        $playlistSubscriptions = [
+            [
+                'createdAt' => new \DateTimeImmutable('2021-01-01')
+            ],
+            [
+                'createdAt' => new \DateTimeImmutable('2021-01-01')
+            ]
+        ];
+
+        foreach ($playlistSubscriptions as $data) {
+            $playlistSubscription = new PlaylistSubscription();
+            $playlistSubscription->setSubscribedAt($data['createdAt']);
+            $playlistSubscription->setPlaylist($this->datas['playlist']);
+            $playlistSubscription->setSubscriber($this->datas['user']);
+
+            $manager->persist($playlistSubscription);
         }
     }
 
