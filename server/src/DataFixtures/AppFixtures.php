@@ -31,6 +31,7 @@ class AppFixtures extends Fixture
         $this->createLanguage($manager);
         $this->createMovie($manager);
         $this->createUser($manager);
+        $this->createWatchHistory($manager);
         $this->createComment($manager);
         $this->createSubscription($manager);
         $this->createSubscriptionHistory($manager);
@@ -331,6 +332,30 @@ class AppFixtures extends Fixture
             $this->createPlaylist($manager, $user);
             
             $manager->persist($user);
+        }
+    }
+
+    public function createWatchHistory(ObjectManager $manager) : void 
+    {
+        $watchHistories = [
+            [
+                'watchedAt' => new \DateTimeImmutable('2021-01-01'),
+                'numberOfViews' => 1
+            ],
+            [
+                'watchedAt' => new \DateTimeImmutable('2021-01-01'),
+                'numberOfViews' => 2
+            ]
+        ];
+
+        foreach ($watchHistories as $data) {
+            $watchHistory = new WatchHistory();
+            $watchHistory->setLastWatchedAt($data['watchedAt']);
+            $watchHistory->setNumberOfViews($data['numberOfViews']);
+            $watchHistory->setMedia($this->datas['movie']);
+            $watchHistory->setWatcher($this->datas['user']);
+
+            $manager->persist($watchHistory);
         }
     }
 
