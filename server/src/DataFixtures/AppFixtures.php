@@ -245,6 +245,8 @@ class AppFixtures extends Fixture
             $movie->setShortDescription($data['shortDescription']);
             $movie->setLongDescription($data['longDescription']);
             $movie->setRealeasedAt(new \DateTimeImmutable($data['releasedAt']));
+            $movie->addCategory($this->datas['category']);
+            $movie->addLanguage($this->datas['language']);
             
             $this->datas['movie'] = $movie;
 
