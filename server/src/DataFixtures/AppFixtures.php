@@ -18,6 +18,9 @@ use App\Entity\Playlist;
 
 class AppFixtures extends Fixture
 {
+
+    public array $datas = [];
+
     public function load(ObjectManager $manager): void
     {
         $this->createMovie($manager);
@@ -113,6 +116,8 @@ class AppFixtures extends Fixture
             $movie->setLongDescription($data['longDescription']);
             $movie->setRealeasedAt(new \DateTimeImmutable($data['releasedAt']));
             
+            $this->datas['movie'] = $movie;
+
             $manager->persist($movie);
         }
     }
@@ -189,6 +194,8 @@ class AppFixtures extends Fixture
             $user->setPassword($data['password']);
             $user->setAccountStatus($data['accountStatus']);
             $this->createPlaylist($manager, $user);
+
+            $this->datas['user'] = $user;
             
             $manager->persist($user);
         }
@@ -215,6 +222,8 @@ class AppFixtures extends Fixture
             $playlist->setCreatedAt($data['createdAt']);
             $playlist->setUpdatedAt($data['createdAt']);
             $playlist->setCreator($user);
+
+            $this->datas['playlist'] = $playlist;
             
             $manager->persist($playlist);
         }
@@ -245,6 +254,8 @@ class AppFixtures extends Fixture
             $subscription->setName($data['name']);
             $subscription->setPrice($data['price']);
             $subscription->setDurationInMonth($data['durationInMonth']);
+
+            $this->datas['subscription'] = $subscription;
             
             $manager->persist($subscription);
         }
@@ -276,6 +287,9 @@ class AppFixtures extends Fixture
             $serie->setLongDescription($data['longDescription']);
             $serie->setRealeasedAt(new \DateTimeImmutable($data['releasedAt']));
             $this->createSeason($manager, $serie);
+
+            $this->datas['serie'] = $serie;
+
             $manager->persist($serie);
         }
     }
@@ -396,6 +410,8 @@ class AppFixtures extends Fixture
             $category = new Category();
             $category->setName($data['name']);
             $category->setLabel($data['label']);
+
+            $this->datas['category'] = $category;
             
             $manager->persist($category);
         }
@@ -449,6 +465,8 @@ class AppFixtures extends Fixture
             $language = new Language();
             $language->setName($data['name']);
             $language->setCode($data['code']);
+
+            $this->datas['language'] = $language;
 
             $manager->persist($language);
         }
