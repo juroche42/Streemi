@@ -7,14 +7,15 @@ namespace App\Controller;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Movie;
 
 class MediaController extends AbstractController
 {
-    #[Route(path: '/movie/{name}', name: 'movie_show')]
-    public function index(string $name) : Response
+    #[Route(path: '/movie/{id}', name: 'movie_show')]
+    public function index(Movie $movie) : Response
     {
-        return $this->render('detail.html.twig', 
-            ['name_movie' => $name]
+        dump($movie);
+        return $this->render('detail.html.twig'
         );
     }
 
