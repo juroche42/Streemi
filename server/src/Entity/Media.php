@@ -31,7 +31,7 @@ class Media
     #[ORM\Column(type: Types::TEXT)]
     private ?string $longDescription = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $realeasedAt = null;
 
     #[ORM\Column(length: 255)]
