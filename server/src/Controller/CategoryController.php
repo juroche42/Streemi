@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\CategoryRepository;
 use App\Repository\MediaRepository;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,11 +13,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategoryController extends AbstractController
 {
     #[Route(path: '/category', name: 'category')]
-    public function index(MediaRepository $mediaRepository) : Response
+    public function index(MediaRepository $mediaRepository, CategoryRepository $categoryRepository) : Response
     {
         $medias = $mediaRepository->findAll();
+        $categories = $categoryRepository->findAll();
+        dump($categories);
         return $this->render('discover.html.twig',
-            ['movies' => $medias]
+            [   'movies' => $medias,
+                'categories' => $categories
+            ]
         );
     }
 
