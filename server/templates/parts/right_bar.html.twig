@@ -54,9 +54,9 @@
         <div class="mt-10">
             <span class="font-semibold text-gray-700">Mes derniers ajouts</span>
             <ul class="mt-4 text-gray-400 text-xs space-y-3">
-                {% include 'parts/media_card/last_add_media_card.html.twig' %}
-                {% include 'parts/media_card/last_add_media_card.html.twig' %}
-                {% include 'parts/media_card/last_add_media_card.html.twig' %}
+                {% for media in medias|slice(0,3) %}
+                    {% include 'parts/media_card/last_add_media_card.html.twig' %}
+                {% endfor %}
                 <li class="pt-1">
                     <a href="#" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 rounded-lg text-center font-medium block text-white">En afficher +</a>
                 </li>

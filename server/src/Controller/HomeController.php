@@ -13,11 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route(path: '/', name: 'home')]
-    public function index(MovieRepository $movieRepository) : Response
+    public function index(MediaRepository $mediaRepository) : Response
     {
-        $movies = $movieRepository->findAll();
+        $medias = $mediaRepository->findAll();
         return $this->render('index.html.twig',
-            ['movies' => $movies]
+            ['medias' => $medias]
         );
     }
 }
