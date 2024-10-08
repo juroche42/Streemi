@@ -28,12 +28,6 @@ class MediaController extends AbstractController
         );
     }
 
-    #[Route(path: '/discover', name: 'discover')]
-    public function discover() : Response
-    {
-        return $this->render('discover.html.twig');
-    }
-
     #[Route(path: '/media/add', name: 'media')]
     public function add() : Response
     {
