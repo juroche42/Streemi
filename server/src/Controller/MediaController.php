@@ -11,7 +11,7 @@ use App\Entity\Movie;
 
 class MediaController extends AbstractController
 {
-    #[Route(path: '/movie/{id}', name: 'movie_show')]
+    #[Route(path: '/media/{id}', name: 'movie_show')]
     public function index(Movie $movie) : Response
     {
         return $this->render('detail.html.twig',
