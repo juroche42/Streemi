@@ -29,4 +29,10 @@ class UserController extends AbstractController
         return $this->render('admin_films.html.twig');
     }
 
+    #[Route(path: '/upload', name: 'upload_image')]
+    public function uploadImage() : Response
+    {
+        return $this->render('upload.html.twig');
+    }
+
 }
