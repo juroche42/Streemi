@@ -29,9 +29,7 @@ class CategoryController extends AbstractController
     #[Route(path: '/category/{id}', name: 'discover')]
     public function discover(Category $category) : Response
     {
-        //recupere film de la categorie
         $medias = $category->getMedia();
-        dump($medias);
         return $this->render('category.html.twig',
             [
                 'medias' => $medias,
