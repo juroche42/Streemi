@@ -14,7 +14,6 @@ class MediaController extends AbstractController
     #[Route(path: '/movie/{id}', name: 'movie_show')]
     public function index(Movie $movie) : Response
     {
-        dump($movie);
         return $this->render('detail.html.twig',
             ['movie' => $movie]
         );

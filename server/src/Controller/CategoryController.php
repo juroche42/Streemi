@@ -17,7 +17,6 @@ class CategoryController extends AbstractController
     {
         $medias = $mediaRepository->findAll();
         $categories = $categoryRepository->findAll();
-        dump($categories);
         return $this->render('discover.html.twig',
             [   'movies' => $medias,
                 'categories' => $categories
