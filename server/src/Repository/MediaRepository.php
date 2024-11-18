@@ -16,6 +16,19 @@ class MediaRepository extends ServiceEntityRepository
         parent::__construct($registry, Media::class);
     }
 
+    public function findByPopular()
+    {
+        // a popular media is a media that has been often addded to playlists
+        return $this->createQueryBuilder('m')
+            ->select('m', 'COUNT(p.id) as HIDDEN playlistCount')
+            ->leftJoin('m.$playlistMedia', 'p')
+            ->groupBy('m.id')
+            ->orderBy('playlistCount', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Media[] Returns an array of Media objects
     //     */
