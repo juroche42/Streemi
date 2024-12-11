@@ -60,6 +60,9 @@ class User implements UserInterface
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'commentator')]
     private Collection $comments;
 
+    #[ORM\Column]
+    private array $role = [];
+
     public function __construct()
     {
         $this->watchHistories = new ArrayCollection();
@@ -285,5 +288,17 @@ class User implements UserInterface
     public function getUserIdentifier(): string
     {
         // TODO: Implement getUserIdentifier() method.
+    }
+
+    public function getRole(): array
+    {
+        return $this->role;
+    }
+
+    public function setRole(array $role): static
+    {
+        $this->role = $role;
+
+        return $this;
     }
 }
