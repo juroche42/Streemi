@@ -75,15 +75,32 @@ class AuthController extends AbstractController
     }
 
     #[Route(path: '/reset-password', name: 'reset-password')]
-    public function resetPassword(Request $request) : Response
+    public function resetPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager) : Response
     {
-        $token = $request->get('token');
-        if ($token) {
-            return $this->render('reset.html.twig', ['token' => $token]);
+        if ($request->isMethod('POST')) {
+            $password = $request->get('_password');
+            $verifyPassword = $request->get('_verify_password');
+            $token = $request->get('token');
+            $user = $userRepository->findOneBy(['resetToken' => $token]);
+            if ($user) {
+                $user->setPassword($password);
+                $user->setResetToken(null);
+                $entityManager->flush();
+                return $this->render('login.html.twig', ['success' => 'Password reset successfully']);
+            }
+            else
+            {
+                return $this->render('login.html.twig', ['error' => 'Invalid token']);
+            }
         }
-        else
-        {
-            return $this->render('login.html.twig', ['error' => 'Invalid token']);
+        else {
+            $token = $request->get('token');
+            $user = $userRepository->findOneBy(['resetToken' => $token]);
+            if ($user) {
+                return $this->render('reset.html.twig', ['token' => $token]);
+            } else {
+                return $this->render('login.html.twig', ['error' => 'Invalid token']);
+            }
         }
     }
 
