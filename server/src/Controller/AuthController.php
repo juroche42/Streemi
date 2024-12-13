@@ -57,7 +57,7 @@ class AuthController extends AbstractController
                 ->to($user->getEmail())
                 ->subject('Reset your password')
                 ->text('Sending emails is fun again!')
-                ->html('<p>Click <a href="http://localhost:8000/reset-password?token=' . $resetToken . '">here</a> to reset your password</p>');
+                ->html('<p>Click <a href="https://127.0.0.1:8000/reset-password?token=' . $resetToken . '">here</a> to reset your password</p>');
 
             $mailer->send($email);
         }
