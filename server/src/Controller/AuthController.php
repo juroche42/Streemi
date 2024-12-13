@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Repository\UserRepository;
-use http\Env\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +19,7 @@ class AuthController extends AbstractController
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-
+        dump($error);
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -39,6 +39,7 @@ class AuthController extends AbstractController
     public function forgotPassword(Request $request, UserRepository $userRepository, MailerInterface $mailer) : Response
     {
         $email = $request->get('email');
+        $user = $userRepository->findOneBy(['email' => $email]);
         return $this->render('forgot.html.twig');
     }
 

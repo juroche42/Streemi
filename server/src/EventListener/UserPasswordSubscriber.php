@@ -31,7 +31,7 @@ class UserPasswordSubscriber
     {
         $plainPassword = $user->getPlainPassword();
 
-        if (!$user->getPlainPassword()) {
+        if (!$plainPassword) {
             return;
         }
         $encodePassword = $this->passwordHasher->hashPassword(
@@ -41,6 +41,6 @@ class UserPasswordSubscriber
 
         $user->setPassword($encodePassword);
 
-        $user->plainPassword = '';
+        $user->eraseCredentials();
     }
 }

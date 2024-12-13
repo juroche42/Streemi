@@ -324,7 +324,7 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setUsername($data['username']);
             $user->setEmail($data['email']);
-            $user->setPassword($data['password']);
+            $user->setPlainPassword($data['password']);
             $user->setAccountStatus($data['accountStatus']);
 
             $this->datas['user'] = $user;
