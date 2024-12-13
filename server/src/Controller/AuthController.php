@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Uid\Uuid;
 
 class AuthController extends AbstractController
 {
@@ -37,24 +37,23 @@ class AuthController extends AbstractController
         return $this->render('register.html.twig');
     }
 
-    /**
-     * @throws TransportExceptionInterface
-     */
+
+
     #[Route(path: '/forgot-password', name: 'forgot_password')]
-    public function forgotPassword(Request $request, UserRepository $userRepository, MailerInterface $mailer) : Response
+    public function forgotPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager) : Response
     {
-        $email = $request->get('email');
+        $email = $request->get('_email');
 
         $user = $userRepository->findOneBy(['email' => $email]);
 
         if ($user) {
-            $email = (new Email())
-                ->from('test@example.com')
-                ->to($user->getEmail())
-                ->subject('Reset Password')
-                ->text('Click here to reset your password')
-                ->html('<a href="http://localhost:8000/reset-password">Click here to reset your password</a>');
-            $mailer->send($email);
+            $resetToken = Uuid::fromString(Uuid::NAMESPACE_URL);
+            $user->setResetToken($resetToken);
+            $entityManager->flush();
+        }
+        else
+        {
+            return $this->render('forgot.html.twig', ['error' => 'User not found']);
         }
         return $this->render('forgot.html.twig');
     }
@@ -70,7 +69,7 @@ class AuthController extends AbstractController
     {
         $password = $request->get('password');
 
-        
+
         return $this->render('reset.html.twig');
     }
 

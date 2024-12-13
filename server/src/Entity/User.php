@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -66,6 +67,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private array $role = [];
+
+    #[ORM\Column(type: 'uuid', nullable: true)]
+    private ?Uuid $resetToken = null;
 
     public function __construct()
     {
@@ -314,6 +318,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(string $plainPassword): static
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?Uuid
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?Uuid $resetToken): static
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }
