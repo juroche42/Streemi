@@ -8,6 +8,8 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,7 +42,7 @@ class AuthController extends AbstractController
 
 
     #[Route(path: '/forgot-password', name: 'forgot_password')]
-    public function forgotPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager) : Response
+    public function forgotPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager, MailerInterface $mailer) : Response
     {
         $email = $request->get('_email');
 
@@ -50,6 +52,14 @@ class AuthController extends AbstractController
             $resetToken = Uuid::fromString(Uuid::NAMESPACE_URL);
             $user->setResetToken($resetToken);
             $entityManager->flush();
+            $email = (new Email())
+                ->from('hello@example.com')
+                ->to($user->getEmail())
+                ->subject('Reset your password')
+                ->text('Sending emails is fun again!')
+                ->html('<p>Click <a href="http://localhost:8000/reset-password?token=' . $resetToken . '">here</a> to reset your password</p>');
+
+            $mailer->send($email);
         }
         else
         {
