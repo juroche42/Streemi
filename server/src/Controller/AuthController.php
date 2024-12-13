@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
+use http\Env\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,9 +35,10 @@ class AuthController extends AbstractController
         return $this->render('register.html.twig');
     }
 
-    #[Route(path: '/forgot-password', name: 'forgot-password')]
-    public function forgotPassword() : Response
+    #[Route(path: '/forgot-password', name: 'forgot_password')]
+    public function forgotPassword(Request $request, UserRepository $userRepository, MailerInterface $mailer) : Response
     {
+        $email = $request->get('email');
         return $this->render('forgot.html.twig');
     }
 

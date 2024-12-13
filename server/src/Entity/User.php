@@ -27,6 +27,8 @@ class User implements UserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    public ?string $plainPassword = '';
+
     #[ORM\Column(enumType: UserAccountStatusEnum::class)]
     private ?UserAccountStatusEnum $accountStatus = null;
 
@@ -298,6 +300,18 @@ class User implements UserInterface
     public function setRole(array $role): static
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
