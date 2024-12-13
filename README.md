@@ -1,17 +1,18 @@
-Application de streaming payante
+# Application de streaming payante
 
-prérequis :
+## Prérequis :
 
-PHP
-Composer
-Docker
+    PHP 8.3
+    Composer
+    Docker
 
-aller dans le repertoire server et taper la commande :
+Aller dans le repertoire server et taper la commande :
 
-composer install
+    composer install
 
 Lancer le projet : 
 
-    dans /server :
-        docker compose up
-        symfony server:start
+dans /server :
+
+    docker compose up
+    symfony server:start
