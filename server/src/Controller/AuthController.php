@@ -77,10 +77,14 @@ class AuthController extends AbstractController
     #[Route(path: '/reset-password', name: 'reset-password')]
     public function resetPassword(Request $request) : Response
     {
-        $password = $request->get('password');
-
-
-        return $this->render('reset.html.twig');
+        $token = $request->get('token');
+        if ($token) {
+            return $this->render('reset.html.twig', ['token' => $token]);
+        }
+        else
+        {
+            return $this->render('login.html.twig', ['error' => 'Invalid token']);
+        }
     }
 
     #[Route(path: '/logout', name: 'logout')]
