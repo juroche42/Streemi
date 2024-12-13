@@ -66,7 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $comments;
 
     #[ORM\Column]
-    private array $role = [];
+    private array $role = ['ROLE_USER'];
 
     #[ORM\Column(type: 'uuid', nullable: true)]
     private ?Uuid $resetToken = null;
