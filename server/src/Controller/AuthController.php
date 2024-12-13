@@ -11,7 +11,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AuthController extends AbstractController
 {
-    #[Route(path: '/login', name: 'login')]
+    #[Route(path: '/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils) : Response
     {
         // get the login error if there is one
